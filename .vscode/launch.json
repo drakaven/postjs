@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/test_script.js",
+            "program": "${workspaceRoot}/test_script.js lincoln",
             "cwd": "${workspaceRoot}"
         },
         {

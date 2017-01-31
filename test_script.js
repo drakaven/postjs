@@ -12,21 +12,25 @@ const client = new pg.Client({
 
 const queryName = process.argv[2];
 
+const printQuery = function (result) {
+  result.rows.forEach((item) => {
+    console.log(item.first_name);
+  });
+};
+
+let callback = (err, result) => {
+  if (err) {
+    return console.error("error running query", err);
+  }
+  printQuery(result);
+  client.end();
+}
+
+let template = "SELECT * FROM famous_people where UPPER(first_name) = UPPER($1::text) or UPPER(last_name) = UPPER($1::text)";
+
 client.connect((err) => {
   if (err) {
     return console.error("Connection Error", err);
   }
-  console.log(queryName);
-  //client.query("SELECT $1::int AS number", ["1"], (err, result) => {
-  client.query("SELECT * FROM famous_people where UPPER(first_name) = UPPER($1::text) or UPPER(last_name) = UPPER($1::text)", [queryName], (err, result) => {
-    if (err) {
-      return console.error("error running query", err);
-    }
-    
-    //console.log(result);
-    console.log(result.rowCount); //output: 1
-
-
-    client.end();
-  });
+  client.query(template, [queryName], callback);
 });
