@@ -14,7 +14,7 @@ const queryName = process.argv[2];
 
 const printQuery = function (result) {
   result.rows.forEach((item) => {
-    console.log(item.first_name);
+    console.log(item.first_name, item.last_name);
   });
 };
 
